@@ -1,0 +1,325 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
+import Player from "../components/player.svelte";
+---
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-500">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body class="bg-gray-500">
+    <img
+      src="/background-blur-1.png"
+      class="h-96 w-full object-cover absolute top-0"
+    />
+    <h1 class="absolute text-3xl text-white text-center w-full top-16">
+      <span class="m-4">{SITE_DESCRIPTION}</span>
+    </h1>
+
+    <div class="absolute top-36 grid justify-center w-full">
+      <Player
+        client:only="svelte"
+        src="https://stream.studentradio.org.uk"
+        live
+        label="SRA Chart Show"
+        class="m-4"
+      />
+    </div>
+    <main>
+      <h1>🧑‍🚀 Hello, Astronaut!</h1>
+
+      <p>
+        Welcome to the official <a href="https://astro.build/">Astro</a> blog starter
+        template. This template serves as a lightweight, minimally-styled starting
+        point for anyone looking to build a personal website, blog, or portfolio
+        with Astro.
+      </p>
+      <p>
+        This template comes with a few integrations already configured in your
+        <code>astro.config.mjs</code> file. You can customize your setup with
+        <a href="https://astro.build/integrations">Astro Integrations</a> to add
+        tools like Tailwind, React, or Vue to your project.
+      </p>
+      <p>Here are a few ideas on how to get started with the template:</p>
+      <ul>
+        <li>Edit this page in <code>src/pages/index.astro</code></li>
+        <li>
+          Edit the site header items in <code>src/components/Header.astro</code>
+        </li>
+        <li>
+          Add your name to the footer in <code>src/components/Footer.astro</code
+          >
+        </li>
+        <li>
+          Check out the included blog posts in <code>src/pages/blog/</code>
+        </li>
+        <li>
+          Customize the blog post page layout in <code
+            >src/layouts/BlogPost.astro</code
+          >
+        </li>
+      </ul>
+      <p>
+        Have fun! If you get stuck, remember to <a
+          href="https://docs.astro.build/"
+          >read the docs
+        </a> or <a href="https://astro.build/chat">join us on Discord</a> to ask
+        questions.
+      </p>
+      <p>
+        Looking for a blog template with a bit more personality? Check out <a
+          href="https://github.com/Charca/astro-blog-template"
+          >astro-blog-template
+        </a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
+      </p>
+    </main>
+    <Footer />
+  </body>
+</html> --><!DOCTYPE html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title="Student Radio Association"
+      description="Supporting Student Radio across the United Kingdom"
+    />
+  </head>
+  <body class="home-template with-full-cover has-serif-body">
+    <div class="site">
+      <Header />
+      <div class="cover image-loading half">
+        <img
+          class="cover-image u-object-fit"
+          src="/background-blur-1.png"
+          alt="Student Radio Association"
+        />
+        <div class="cover-content container">
+          <Player
+            client:only="svelte"
+            live
+            src="https://stream.studentradio.org.uk"
+            label="SRA Chart Show"
+          >
+            <div class="cover-description">
+              Supporting Student Radio across the United Kingdom
+            </div>
+          </Player>
+          <form class="form-wrapper cover-form" data-members-form>
+            <input
+              class="auth-email px-6 focus:border-gray-500 outline-none"
+              type="email"
+              data-members-email
+              placeholder="Your email address"
+              required="true"
+              autocomplete="false"
+            />
+            <button
+              class="form-button bg-brand"
+              type="submit"
+              aria-label="Submit"
+            >
+              <span class="default">Subscribe</span>
+              <span class="loader"
+                ><svg
+                  class="icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 40 40"
+                >
+                  <path
+                    opacity="0.3"
+                    fill="currentColor"
+                    d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946 s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634 c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"
+                  ></path>
+                  <path
+                    fill="currentColor"
+                    d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0 C22.32,8.481,24.301,9.057,26.013,10.047z"
+                  >
+                    <animateTransform
+                      attributeType="xml"
+                      attributeName="transform"
+                      type="rotate"
+                      from="0 20 20"
+                      to="360 20 20"
+                      dur="0.5s"
+                      repeatCount="indefinite"></animateTransform>
+                  </path>
+                </svg>
+              </span>
+              <span class="success">Email sent</span>
+            </button>
+          </form>
+        </div>
+        <button class="button-icon cover-arrow">
+          <svg
+            class="icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 32 32"
+          >
+            <path
+              d="M11.453 22.107L17.56 16l-6.107-6.12L13.333 8l8 8-8 8-1.88-1.893z"
+            ></path>
+          </svg>
+        </button>
+      </div>
+      <div class="site-content">
+        <div class="content-area">
+          <main class="site-main">
+            <div class="post-feed expanded container medium">
+              <a
+                class="twitter-timeline"
+                data-dnt="true"
+                data-theme="light"
+                href="https://twitter.com/SRA?ref_src=twsrc%5Etfw"
+                >Tweets by SRA</a
+              >
+              <script
+                async
+                src="https://platform.twitter.com/widgets.js"
+                charset="utf-8"
+              ></script>
+            </div>
+            <nav class="pagination"></nav>
+            <div class="infinite-scroll-action">
+              <button class="button button-secondary infinite-scroll-button">
+                <span class="label">Load more</span>
+                <span class="loader"
+                  ><svg
+                    class="icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 40 40"
+                  >
+                    <path
+                      opacity="0.3"
+                      fill="currentColor"
+                      d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946 s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634 c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"
+                    ></path>
+                    <path
+                      fill="currentColor"
+                      d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0 C22.32,8.481,24.301,9.057,26.013,10.047z"
+                    >
+                      <animateTransform
+                        attributeType="xml"
+                        attributeName="transform"
+                        type="rotate"
+                        from="0 20 20"
+                        to="360 20 20"
+                        dur="0.5s"
+                        repeatCount="indefinite"></animateTransform>
+                    </path>
+                  </svg>
+                </span>
+              </button>
+            </div>
+          </main>
+        </div>
+      </div>
+      <footer class="site-footer container">
+        <div class="footer-inner">
+          <div class="footer-left">
+            <div class="copyright">Student Radio Association</div>
+          </div>
+          <div class="footer-right">
+            <div class="social">
+              <a
+                class="social-item social-item-facebook"
+                href="https://www.facebook.com/studentradio"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+              >
+                <svg
+                  class="icon"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  ><path
+                    d="M23.9981 11.9991C23.9981 5.37216 18.626 0 11.9991 0C5.37216 0 0 5.37216 0 11.9991C0 17.9882 4.38789 22.9522 10.1242 23.8524V15.4676H7.07758V11.9991H10.1242V9.35553C10.1242 6.34826 11.9156 4.68714 14.6564 4.68714C15.9692 4.68714 17.3424 4.92149 17.3424 4.92149V7.87439H15.8294C14.3388 7.87439 13.8739 8.79933 13.8739 9.74824V11.9991H17.2018L16.6698 15.4676H13.8739V23.8524C19.6103 22.9522 23.9981 17.9882 23.9981 11.9991Z"
+                  ></path>
+                </svg>
+              </a>
+              <a
+                class="social-item social-item-twitter"
+                href="https://twitter.com/SRA"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter"
+              >
+                <svg
+                  class="icon"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  ><path
+                    d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="pswp__bg"></div>
+
+        <div class="pswp__scroll-wrap">
+          <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+          </div>
+
+          <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+              <div class="pswp__counter"></div>
+              <button
+                class="pswp__button pswp__button--close"
+                title="Close (Esc)"></button>
+              <button class="pswp__button pswp__button--share" title="Share"
+              ></button>
+              <button
+                class="pswp__button pswp__button--fs"
+                title="Toggle fullscreen"></button>
+              <button
+                class="pswp__button pswp__button--zoom"
+                title="Zoom in/out"></button>
+
+              <div class="pswp__preloader">
+                <div class="pswp__preloader__icn">
+                  <div class="pswp__preloader__cut">
+                    <div class="pswp__preloader__donut"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"
+            >
+              <div class="pswp__share-tooltip"></div>
+            </div>
+            <button
+              class="pswp__button pswp__button--arrow--left"
+              title="Previous (arrow left)"></button>
+            <button
+              class="pswp__button pswp__button--arrow--right"
+              title="Next (arrow right)"></button>
+            <div class="pswp__caption">
+              <div class="pswp__caption__center"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      if (
+        document.body.classList.contains("with-full-cover") &&
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.platform)
+      ) {
+        document.getElementsByClassName("cover")[0].style.height =
+          window.innerHeight + "px";
+      }
+    </script>
+    <script src="/assets/built/main.min.js" is:inline></script>
+  </body>
+</html>

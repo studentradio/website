@@ -1,0 +1,247 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+export function getStaticPaths() {
+  return [{ params: { tag: "news" } }, { params: { tag: "sra-chart-show" } }];
+}
+
+const { tag } = Astro.params;
+import ghostClient from "../../utils/ghost";
+import dayjs from "dayjs";
+const posts = await ghostClient.posts.browse({
+  filter: "tag:" + tag,
+  limit: "all",
+  include: ["tags", "authors"],
+});
+const tagDetails = await ghostClient.tags.read({
+  slug: tag,
+});
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`${tagDetails.name} - Student Radio Association`}
+      url={`/tag/${tag}`}
+      description={`Posts in the ${tagDetails.name} category`}
+    />
+  </head>
+  <body class={`tag-template tag-${tag} with-alt-header has-serif-body`}>
+    <div class="site">
+      <Header />
+      <div class="site-content">
+        <div class="content-area">
+          <main class="site-main">
+            <section class="taxonomy">
+              <header class="single-header kg-canvas">
+                <h1 class="single-title">{tagDetails.name}</h1>
+              </header>
+            </section>
+            <div class="post-feed container medium">
+              {
+                posts.map((post) => {
+                  const date = dayjs(post.published_at);
+                  return (
+                    <>
+                      <article
+                        class={
+                          "feed post no-image " +
+                          post.tags.map((t) => `tag-${t.slug}`).join(" ")
+                        }
+                        data-month={date.format("MMMM YYYY")}
+                      >
+                        <div class="feed-calendar">
+                          <div class="feed-calendar-month">
+                            {date.format("MMM")}
+                          </div>
+                          <div class="feed-calendar-day">
+                            {date.format("DD")}
+                          </div>
+                        </div>
+                        <div class="feed-image u-placeholder rectangle" />
+                        <div class="feed-wrapper">
+                          <h2 class="feed-title">{post.title}</h2>
+                          <div class="feed-excerpt">{post.excerpt}</div>
+                          <div class="feed-right">
+                            <time
+                              class="feed-date"
+                              datetime={date.format("YYYY-MM-DD")}
+                            >
+                              {date.format("MMM DD, YYYY")}
+                            </time>
+                            <div class="feed-visibility feed-visibility-public">
+                              <svg
+                                class="icon"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 32 32"
+                              >
+                                <path d="M16 23.027L24.24 28l-2.187-9.373 7.28-6.307-9.587-.827-3.747-8.827-3.747 8.827-9.587.827 7.267 6.307L7.759 28l8.24-4.973z" />
+                              </svg>
+                            </div>
+                            <div class="feed-length">
+                              {post.reading_time} min read
+                            </div>
+                            <div class="feed-icon">
+                              <svg
+                                class="icon"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 32 32"
+                              >
+                                <path d="M11.453 22.107L17.56 16l-6.107-6.12L13.333 8l8 8-8 8-1.88-1.893z" />
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                        <a
+                          class="u-permalink"
+                          href={`/posts/${post.slug}`}
+                          aria-label={post.title}
+                        />
+                      </article>
+                    </>
+                  );
+                })
+              }
+            </div>
+            <nav class="pagination"></nav>
+            <div class="infinite-scroll-action">
+              <button class="button button-secondary infinite-scroll-button">
+                <span class="label">Load more</span>
+                <span class="loader"
+                  ><svg
+                    class="icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 40 40"
+                  >
+                    <path
+                      opacity="0.3"
+                      fill="currentColor"
+                      d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946 s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634 c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"
+                    ></path>
+                    <path
+                      fill="currentColor"
+                      d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0 C22.32,8.481,24.301,9.057,26.013,10.047z"
+                    >
+                      <animateTransform
+                        attributeType="xml"
+                        attributeName="transform"
+                        type="rotate"
+                        from="0 20 20"
+                        to="360 20 20"
+                        dur="0.5s"
+                        repeatCount="indefinite"></animateTransform>
+                    </path>
+                  </svg>
+                </span>
+              </button>
+            </div>
+          </main>
+        </div>
+      </div>
+      <footer class="site-footer container">
+        <div class="footer-inner">
+          <div class="footer-left">
+            <div class="copyright">Student Radio Association</div>
+          </div>
+          <div class="footer-right">
+            <div class="social">
+              <a
+                class="social-item social-item-facebook"
+                href="https://www.facebook.com/studentradio"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+              >
+                <svg
+                  class="icon"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  ><path
+                    d="M23.9981 11.9991C23.9981 5.37216 18.626 0 11.9991 0C5.37216 0 0 5.37216 0 11.9991C0 17.9882 4.38789 22.9522 10.1242 23.8524V15.4676H7.07758V11.9991H10.1242V9.35553C10.1242 6.34826 11.9156 4.68714 14.6564 4.68714C15.9692 4.68714 17.3424 4.92149 17.3424 4.92149V7.87439H15.8294C14.3388 7.87439 13.8739 8.79933 13.8739 9.74824V11.9991H17.2018L16.6698 15.4676H13.8739V23.8524C19.6103 22.9522 23.9981 17.9882 23.9981 11.9991Z"
+                  ></path>
+                </svg>
+              </a>
+              <a
+                class="social-item social-item-twitter"
+                href="https://twitter.com/SRA"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter"
+              >
+                <svg
+                  class="icon"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  ><path
+                    d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="pswp__bg"></div>
+
+        <div class="pswp__scroll-wrap">
+          <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+          </div>
+
+          <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+              <div class="pswp__counter"></div>
+              <button
+                class="pswp__button pswp__button--close"
+                title="Close (Esc)"></button>
+              <button class="pswp__button pswp__button--share" title="Share"
+              ></button>
+              <button
+                class="pswp__button pswp__button--fs"
+                title="Toggle fullscreen"></button>
+              <button
+                class="pswp__button pswp__button--zoom"
+                title="Zoom in/out"></button>
+
+              <div class="pswp__preloader">
+                <div class="pswp__preloader__icn">
+                  <div class="pswp__preloader__cut">
+                    <div class="pswp__preloader__donut"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"
+            >
+              <div class="pswp__share-tooltip"></div>
+            </div>
+            <button
+              class="pswp__button pswp__button--arrow--left"
+              title="Previous (arrow left)"></button>
+            <button
+              class="pswp__button pswp__button--arrow--right"
+              title="Next (arrow right)"></button>
+            <div class="pswp__caption">
+              <div class="pswp__caption__center"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      if (
+        document.body.classList.contains("with-full-cover") &&
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.platform)
+      ) {
+        document.getElementsByClassName("cover")[0].style.height =
+          window.innerHeight + "px";
+      }
+    </script>
+    <script src="/assets/built/main.min.js" is:inline></script>
+  </body>
+</html>

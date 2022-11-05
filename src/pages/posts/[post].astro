@@ -1,0 +1,231 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import ghostClient from "../../utils/ghost";
+import dayjs from "dayjs";
+const { post } = Astro.params;
+const postDetails = await ghostClient.posts.read({
+  slug: post,
+  include: ["tags"],
+});
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={postDetails.title}
+      description={postDetails.excerpt}
+      url={`/posts/${postDetails.slug}`}
+    />
+  </head>
+  <body class="post-template tag-sra-chart-show with-alt-header has-serif-body">
+    <div class="site">
+      <Header />
+      <!-- <pre>{JSON.stringify(postDetails, null, 2)} -->
+
+      <div class="site-content">
+        <div class="content-area">
+          <main class="site-main">
+            <article class="single post tag-sra-chart-show no-image">
+              <header class="single-header kg-canvas">
+                <div class="single-meta">
+                  <span class="single-meta-item single-meta-date">
+                    <time
+                      datetime={dayjs(postDetails.published_at).format(
+                        "YYYY-MM-DD"
+                      )}
+                      >{
+                        dayjs(postDetails.published_at).format("D MMMM YYYY")
+                      }</time
+                    >
+                  </span>
+                  <span class="single-meta-item single-meta-length">
+                    {postDetails.reading_time} min read
+                  </span>
+                  <span class="single-meta-item single-meta-tag">
+                    <a
+                      class="post-tag post-tag-sra-chart-show"
+                      href={`/tag/${postDetails.primary_tag.slug}`}
+                      >{postDetails.primary_tag.name}</a
+                    >
+                  </span>
+                </div>
+                <h1 class="single-title">{postDetails.title}</h1>
+              </header>
+
+              <div
+                class="single-content gh-content kg-canvas"
+                set:html={postDetails.html}
+              >
+              </div>
+              <footer class="single-footer container small">
+                <div class="single-footer-left"></div>
+                <div class="single-footer-middle">
+                  <div class="single-footer-top">
+                    <h3 class="single-footer-title">Published by:</h3>
+                    <div class="author-list">
+                      <div
+                        class="author-image-placeholder u-placeholder square"
+                      >
+                        <a href="/author/marketing/" title="Hannah Willoughby">
+                          <img
+                            class="author-image u-object-fit"
+                            src="/content/images/size/w150/2022/10/IMG_4554.JPG"
+                            alt="Hannah Willoughby"
+                            loading="lazy"
+                          />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="single-footer-bottom">
+                    <div class="share">
+                      <a
+                        class="share-link share-link-facebook"
+                        href={`https://www.facebook.com/sharer.php?u=https://studentradio.org.uk/posts/${post}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <svg
+                          class="icon"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                          ><path
+                            d="M23.9981 11.9991C23.9981 5.37216 18.626 0 11.9991 0C5.37216 0 0 5.37216 0 11.9991C0 17.9882 4.38789 22.9522 10.1242 23.8524V15.4676H7.07758V11.9991H10.1242V9.35553C10.1242 6.34826 11.9156 4.68714 14.6564 4.68714C15.9692 4.68714 17.3424 4.92149 17.3424 4.92149V7.87439H15.8294C14.3388 7.87439 13.8739 8.79933 13.8739 9.74824V11.9991H17.2018L16.6698 15.4676H13.8739V23.8524C19.6103 22.9522 23.9981 17.9882 23.9981 11.9991Z"
+                          ></path>
+                        </svg> Share
+                      </a>
+                      <a
+                        class="share-link share-link-twitter"
+                        href={`https://twitter.com/intent/tweet?url=https://studentradio.org.uk/posts/${post}&text=${encodeURIComponent(
+                          postDetails.title
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <svg
+                          class="icon"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                          ><path
+                            d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"
+                          ></path>
+                        </svg> Tweet
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="single-footer-right"></div>
+              </footer>
+            </article>
+          </main>
+        </div>
+      </div>
+      <footer class="site-footer container">
+        <div class="footer-inner">
+          <div class="footer-left">
+            <div class="copyright">Student Radio Association</div>
+          </div>
+          <div class="footer-right">
+            <div class="social">
+              <a
+                class="social-item social-item-facebook"
+                href="https://www.facebook.com/studentradio"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+              >
+                <svg
+                  class="icon"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  ><path
+                    d="M23.9981 11.9991C23.9981 5.37216 18.626 0 11.9991 0C5.37216 0 0 5.37216 0 11.9991C0 17.9882 4.38789 22.9522 10.1242 23.8524V15.4676H7.07758V11.9991H10.1242V9.35553C10.1242 6.34826 11.9156 4.68714 14.6564 4.68714C15.9692 4.68714 17.3424 4.92149 17.3424 4.92149V7.87439H15.8294C14.3388 7.87439 13.8739 8.79933 13.8739 9.74824V11.9991H17.2018L16.6698 15.4676H13.8739V23.8524C19.6103 22.9522 23.9981 17.9882 23.9981 11.9991Z"
+                  ></path>
+                </svg>
+              </a>
+              <a
+                class="social-item social-item-twitter"
+                href="https://twitter.com/SRA"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter"
+              >
+                <svg
+                  class="icon"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  ><path
+                    d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="pswp__bg"></div>
+
+        <div class="pswp__scroll-wrap">
+          <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+          </div>
+
+          <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+              <div class="pswp__counter"></div>
+              <button
+                class="pswp__button pswp__button--close"
+                title="Close (Esc)"></button>
+              <button class="pswp__button pswp__button--share" title="Share"
+              ></button>
+              <button
+                class="pswp__button pswp__button--fs"
+                title="Toggle fullscreen"></button>
+              <button
+                class="pswp__button pswp__button--zoom"
+                title="Zoom in/out"></button>
+
+              <div class="pswp__preloader">
+                <div class="pswp__preloader__icn">
+                  <div class="pswp__preloader__cut">
+                    <div class="pswp__preloader__donut"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"
+            >
+              <div class="pswp__share-tooltip"></div>
+            </div>
+            <button
+              class="pswp__button pswp__button--arrow--left"
+              title="Previous (arrow left)"></button>
+            <button
+              class="pswp__button pswp__button--arrow--right"
+              title="Next (arrow right)"></button>
+            <div class="pswp__caption">
+              <div class="pswp__caption__center"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      if (
+        document.body.classList.contains("with-full-cover") &&
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.platform)
+      ) {
+        document.getElementsByClassName("cover")[0].style.height =
+          window.innerHeight + "px";
+      }
+    </script>
+    <script src="/assets/built/main.min.js" is:inline></script>
+  </body>
+</html>
