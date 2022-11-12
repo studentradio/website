@@ -1,17 +1,18 @@
 <script lang="ts">
-  import FaPlay from "svelte-icons/fa/FaPlay.svelte";
-  import FaPause from "svelte-icons/fa/FaPause.svelte";
+  import FaPlay from 'svelte-icons/fa/FaPlay.svelte';
+  import FaPause from 'svelte-icons/fa/FaPause.svelte';
   export let src: string;
   export let live: boolean;
   export let label: string;
   let paused: boolean = true;
-  let tailwind = "";
+  let tailwind = '';
   export { tailwind as class };
 
   const date = new Date();
 
   const shouldShow =
-    date.getDay() == 0 && date.getHours() >= 14 && date.getHours() <= 16;
+    (date.getDay() == 0 && date.getHours() >= 14 && date.getHours() <= 16) ||
+    window.location.search === '?player';
 </script>
 
 {#if shouldShow}
