@@ -22,7 +22,7 @@
     <img
       src="/player-background.jpg"
       alt=""
-      class="row-span-1 col-span-1 row-start-1 col-start-1 h-full object-cover object-left-bottom"
+      class="row-span-1 col-span-1 row-start-1 col-start-1 h-40 object-cover object-left-bottom"
     />
     <div
       class="row-span-1 col-span-1 row-start-1 col-start-1 md:ml-24 ml-0 md:justify-start justify-center flex gap-8 items-center"
