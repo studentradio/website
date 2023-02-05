@@ -1,13 +1,17 @@
 ---
-import BaseHead from "../../components/BaseHead.astro";
-import Header from "../../components/Header.astro";
-import ghostClient from "../../utils/ghost";
-import dayjs from "dayjs";
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import ghostClient from '../../utils/ghost';
+import dayjs from 'dayjs';
+import Player from '../../components/audio.svelte';
 const { post } = Astro.params;
 const postDetails = await ghostClient.posts.read({
-  slug: post,
-  include: ["tags"],
+  slug: post as string,
+  include: ['tags']
 });
+const audioData = await fetch(`https://chart-api.s.workers.dev/${post}`).then(
+  (r) => r.json()
+);
 ---
 
 <!DOCTYPE html>
@@ -33,10 +37,10 @@ const postDetails = await ghostClient.posts.read({
                   <span class="single-meta-item single-meta-date">
                     <time
                       datetime={dayjs(postDetails.published_at).format(
-                        "YYYY-MM-DD"
+                        'YYYY-MM-DD'
                       )}
                       >{
-                        dayjs(postDetails.published_at).format("D MMMM YYYY")
+                        dayjs(postDetails.published_at).format('D MMMM YYYY')
                       }</time
                     >
                   </span>
@@ -53,7 +57,11 @@ const postDetails = await ghostClient.posts.read({
                 </div>
                 <h1 class="single-title">{postDetails.title}</h1>
               </header>
-
+              <Player
+                client:only="svelte"
+                src={audioData?.src}
+                name={audioData?.name}
+              />
               <div
                 class="single-content gh-content kg-canvas"
                 set:html={postDetails.html}
@@ -219,11 +227,11 @@ const postDetails = await ghostClient.posts.read({
 
     <script>
       if (
-        document.body.classList.contains("with-full-cover") &&
+        document.body.classList.contains('with-full-cover') &&
         /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.platform)
       ) {
-        document.getElementsByClassName("cover")[0].style.height =
-          window.innerHeight + "px";
+        document.getElementsByClassName('cover')[0].style.height =
+          window.innerHeight + 'px';
       }
     </script>
     <script src="/assets/built/main.min.js" is:inline></script>

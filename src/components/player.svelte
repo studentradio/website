@@ -12,7 +12,7 @@
 
   const shouldShow =
     (date.getDay() == 0 && date.getHours() >= 14 && date.getHours() <= 16) ||
-    window.location.search === '?player';
+    window.location.search === '?player' || !live;
 </script>
 
 {#if shouldShow}
